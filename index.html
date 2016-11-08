@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang='en'>
+<html lang='en' ng-app="app">
     <head>
         <meta charset='utf-8'>
         <title>TODO List</title>
@@ -9,28 +9,32 @@
         <meta name='viewport' content='width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no'>
 
         <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300italic,400,400italic' rel='stylesheet' type='text/css'>
+
         <link rel='stylesheet' type='text/css' href='css/main.css'>
+
+        <!-- Angular Script -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
     </head>
-    <body>
+    <body ng-controller="todoController as controller">
 
         <header>
             <h1>todos</h1>
         </header>
 
         <main>
-            <form action='' method='post'>
-                <input type='text' class='new-todo' placeholder='What needs to be done?'>
+            <form ng-submit="controller.update(controller.form)">
+                <input type='text' ng-model='controller.form.content' class='new-todo' placeholder='What needs to be done?'>
             </form>
 
-            <ul class='items'>
-<!--                 <li>
-                    <article>
-                        <button class='check'></button>
-                        <p>learn html</p>
+            <ul class='items' ng-cloak ng-repeat="todo in controller.items track by $index">
+                <li>
+                    <article ng-class='{completed: todo.isComplete}'>
+                        <button ng-click='controller.complete(todo)' class='check'></button>
+                        <p>{{todo.content}}</p>
                         <input type='text' class='edit-todo' value='learn html'>
-                        <button class='delete'>X</button>
+                        <button ng-click='controller.delete(todo)' class='delete'>X</button>
                     </article>
-                </li> -->
+                </li>
                 <!-- example of completed item
                 <li>
                     <article class='completed'>
@@ -44,19 +48,25 @@
             </ul>
 
             <footer>
-                <p class='remaining'><span class='incomplete-items'>0</span> items left</p>
+                <p class='remaining'><span class='incomplete-items'>{{controller.incompleteItems.length}}</span> items left</p>
                 <nav>
                     <ul>
-                        <li><button class='show-all active'>All</button></li>
-                        <li><button class='show-active'>Active</button></li>
-                        <li><button class='show-completed'>Completed</button></li>
+                        <li><button ng-click='controller.items()' class='show-all active'>All</button></li>
+                        <li><button ng-click='controller.incompleteItems()' class='show-active'>Active</button></li>
+                        <li><button ng-click='controller.completeItems()' class='show-completed'>Completed</button></li>
                     </ul>
                 </nav>
             </footer>
         </main>
-<script src="https://code.jquery.com/jquery-1.12.4.js"
-              integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="
-              crossorigin="anonymous"></script>
-              <script src="js/main.js"></script>
+
+<!-- Angular Script -->
+<script src="js/main.js" type="text/javascript"></script>
+
+<script src="factories/factory.js" type="text/javascript"></script>
+
+<script src="controllers/controller.js" type="text/javascript"></script>
+
+
+
     </body>
 </html>
